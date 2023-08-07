@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/courses/static/css/main.cf426e92.css",
+    "main.js": "/courses/static/js/main.51ea05d8.js",
+    "static/media/logo.png": "/courses/static/media/logo.315d241143482d1ac664.png",
+    "index.html": "/courses/index.html",
+    "main.cf426e92.css.map": "/courses/static/css/main.cf426e92.css.map",
+    "main.51ea05d8.js.map": "/courses/static/js/main.51ea05d8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.cf426e92.css",
+    "static/js/main.51ea05d8.js"
+  ]
+}

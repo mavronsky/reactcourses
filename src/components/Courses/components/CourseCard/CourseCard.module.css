@@ -1,0 +1,46 @@
+.course_card {
+  display: flex;
+  justify-content: space-between;
+  border: solid 1px white;
+  margin: 2% 2%;
+  height: 30%;
+  padding: 4% 3%;
+}
+
+.course_desc {
+  text-align: left;
+
+  color: white;
+  width: 80%;
+}
+
+.course_desc > * {
+  margin-bottom: 5%; /* Выберет все непосредственные дочерние элементы и добавит вертикальный отступ */
+}
+
+.course_info {
+  width: 25%;
+  margin-left: 11%;
+  margin-top: 1%;
+  text-align: left;
+}
+
+.course_info > * {
+  margin-bottom: 10%;
+}
+
+p {
+  font-weight: bold; /* Устанавливаем жирный шрифт для всех абзацев */
+  color: white;
+}
+
+p span {
+  color: yellow;
+  font-weight: normal; /* Устанавливаем обычный шрифт для всех вложенных элементов span в абзаце */
+}
+
+@media (max-width: 700px) {
+  .course_card {
+    height: 40%;
+  }
+}

@@ -1,0 +1,46 @@
+/* Base styles for all screen sizes */
+.courses {
+  height: 100%;
+  width: 94%;
+  padding: 2% 2%;
+}
+
+.searchbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10%;
+  width: 94%;
+  padding: -1% 9%;
+  margin: 0 auto;
+}
+
+.no_matches {
+  color: white;
+  text-align: center;
+  padding: 200px;
+  font-size: 50px;
+}
+
+@media (max-width: 768px) {
+  .searchbar {
+    height: 7%;
+    padding: 7% 0%;
+    width: 90%;
+  }
+
+  @media (min-width: 1000px) {
+    .searchbar {
+      height: 5%;
+      background-color: aqua;
+    }
+  }
+  .searchbar button {
+    margin-top: 10px;
+  }
+
+  .no_matches {
+    font-size: 30px;
+    padding: 100px;
+  }
+}

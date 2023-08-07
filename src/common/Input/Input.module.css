@@ -1,0 +1,8 @@
+/* Стили для метки (label) */
+.input_container {
+  display: block;
+  color: aliceblue;
+  margin-bottom: 18px;
+  height: 70%;
+  width: 90%;
+}
