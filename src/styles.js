@@ -13,11 +13,10 @@ export const createAuthorButtonStyle = {
   backgroundColor: '#ffdd12',
   width: '73px',
   fontSize: '16px',
-  height: '43px',
+  height: '40px',
   cursor: 'pointer',
   border: 'none',
   marginTop: '11px',
-
   borderRadius: '0 5px 5px 0px',
 };
 
@@ -25,12 +24,12 @@ export const searchButtonStyle = {
   backgroundColor: 'blue',
   width: '73px',
   fontSize: '15px',
-  height: '44px',
+  height: '42px',
   color: 'white',
   cursor: 'pointer',
   border: 'none',
-  marginTop: '10px',
-  marginLeft: '5px',
+  marginLeft: '2px',
+  borderRadius: '0px 5px 5px 0px',
 };
 
 export const showButtonStyle = {
@@ -54,6 +53,9 @@ export const logoutButtonStyle = {
   cursor: 'pointer',
   border: 'none',
   borderRadius: '5px',
+  ':hover': {
+    backgroundColor: 'blue', // Новый цвет при наведении
+  },
 };
 
 export const addButtonStyle = {
@@ -64,6 +66,7 @@ export const addButtonStyle = {
   color: 'white',
   cursor: 'pointer',
   border: 'none',
+  borderRadius: '5px',
 };
 
 export const deleteButtonStyle = {
@@ -74,6 +77,7 @@ export const deleteButtonStyle = {
   color: 'white',
   cursor: 'pointer',
   border: 'none',
+  borderRadius: '5px',
 };
 
 export const inputStyleSmall = {
@@ -82,19 +86,18 @@ export const inputStyleSmall = {
   marginTop: '10px',
   height: '40px',
   paddingLeft: '10px',
-
-  width: '40%',
+  width: '300px',
+  borderRadius: '5px',
 };
 
 export const inputStyleMedium = {
   display: 'flex',
   justifyContent: 'center',
-  height: '20px',
-  width: '95%',
-  padding: '10px',
+  height: '40px',
+  width: '99%',
   marginTop: '10px',
-
   alignItems: 'center',
+  borderRadius: '5px',
 };
 
 export const inputStyleLarge = {
@@ -102,5 +105,6 @@ export const inputStyleLarge = {
   justifyContent: 'center',
   height: '130px',
   width: '95%',
-  padding: '8px',
+  marginTop: '10px',
+  borderRadius: '5px',
 };

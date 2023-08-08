@@ -1,18 +1,18 @@
 /* Base styles for all screen sizes */
 .courses {
   height: 100%;
-  width: 94%;
+  width: 92%;
   padding: 2% 2%;
+  margin: 0 auto;
 }
 
 .searchbar {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   height: 10%;
-  width: 94%;
-  padding: -1% 9%;
+  width: 95%;
   margin: 0 auto;
+  padding: 2%;
 }
 
 .no_matches {
@@ -26,7 +26,6 @@
   .searchbar {
     height: 7%;
     padding: 7% 0%;
-    width: 90%;
   }
 
   @media (min-width: 1000px) {
@@ -34,9 +33,6 @@
       height: 5%;
       background-color: aqua;
     }
-  }
-  .searchbar button {
-    margin-top: 10px;
   }
 
   .no_matches {

@@ -1,51 +1,38 @@
-import { useState, useMemo } from 'react';
-
+import React, { useState, useMemo } from 'react';
 import { mockedCoursesList, mockedAuthorsList } from '../../data/mockedData';
-
-import escapeRegExp from 'escape-string-regexp';
-
 import CourseCard from './components/CourseCard/CourseCard';
 import Button from '../../common/Button/Button';
 import SearchBar from './components/SearchBar/SearchBar';
-
 import styles from './Courses.module.css';
 import { createButtonStyle } from '../../styles';
 import { pipeDuration } from '../../helpers/pipeDuration';
-
 import { createAddNewCourseButtonText } from '../../constants';
 
-function Courses({ toggleComponent }) {
+const Courses = ({ toggleComponent }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const searchRegex = useMemo(
-    () => new RegExp(escapeRegExp(searchQuery), 'i'),
-    [searchQuery]
-  );
-
-  const handleSearchClick = (searchText) => {
-    setSearchQuery(searchText);
+  const handleSearchSubmit = (newSearchQuery) => {
+    setSearchQuery(newSearchQuery);
   };
 
   const authorsMap = useMemo(() => getAuthorsMap(), []);
 
   const filteredCourses = useMemo(() => {
-    if (!searchQuery) {
+    if (searchQuery === '') {
       return mockedCoursesList;
     }
+    const lowerCaseSearch = searchQuery.toLowerCase();
     return mockedCoursesList.filter(
       (course) =>
-        searchRegex.test(course.title) || searchRegex.test(course.id.toString())
+        course.title.toLowerCase().includes(lowerCaseSearch) ||
+        course.id.toString().includes(lowerCaseSearch)
     );
-  }, [searchQuery, searchRegex]);
+  }, [searchQuery]);
 
   return (
     <div className={styles.courses}>
       <div className={styles.searchbar}>
-        <SearchBar
-          value={searchQuery}
-          onSubmit={setSearchQuery}
-          onSearchClick={handleSearchClick}
-        />
+        <SearchBar onSubmit={handleSearchSubmit} />
         <Button
           style={createButtonStyle}
           text={createAddNewCourseButtonText}
@@ -53,7 +40,20 @@ function Courses({ toggleComponent }) {
         />
       </div>
 
-      {filteredCourses.length === 0 ? (
+      {searchQuery === '' ? (
+        mockedCoursesList.map(
+          ({ id, title, description, duration, creationDate, authors }) => (
+            <CourseCard
+              key={id}
+              title={title}
+              description={description}
+              duration={pipeDuration(duration)}
+              creationDate={creationDate}
+              authors={authors.map((authorId) => authorsMap[authorId])}
+            />
+          )
+        )
+      ) : filteredCourses.length === 0 ? (
         <div className={styles.no_matches}>No matches.</div>
       ) : (
         filteredCourses.map(
@@ -71,7 +71,7 @@ function Courses({ toggleComponent }) {
       )}
     </div>
   );
-}
+};
 
 export default Courses;
 

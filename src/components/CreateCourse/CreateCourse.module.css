@@ -16,16 +16,15 @@
   justify-content: space-between;
   padding: 1% 8% 2% 5%;
   margin: 0 auto;
-  align-items: center;
   height: 100%;
   width: 88%;
+  align-items: center;
 }
 
 @media (min-width: 800px) {
   .title {
     padding: 4% 5% 4% 2%;
     margin: 0 auto;
-    align-items: center;
     height: 100%;
     width: 87%;
   }
@@ -45,6 +44,7 @@
   justify-content: space-between;
   color: aliceblue;
   margin: 0 auto;
+  width: 100%;
   max-width: 100%;
 }
 
@@ -104,6 +104,7 @@
 
 .add_authors_container {
   padding-left: 6%;
+  width: 30%;
 }
 
 @media (max-width: 800px) {

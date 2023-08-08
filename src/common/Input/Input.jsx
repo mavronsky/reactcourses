@@ -9,7 +9,7 @@ function Input({
   ...restProps
 }) {
   const defaultStyles = {
-    borderRadius: '30px',
+    borderRadius: '5px',
   };
 
   const inputStyle = {

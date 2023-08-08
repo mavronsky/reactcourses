@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import styled from 'styled-components';
 
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
+
 import styles from './CreateCourse.module.css';
 
 import { getCurrentDateFormatted } from '../../helpers/dateGenerator';
@@ -34,6 +36,26 @@ import {
   createAuthorButtonStyle,
   addButtonStyle,
 } from '../../styles';
+
+const CreateButton = styled(Button)`
+  background-color: green;
+  width: 73px;
+  font-size: 14px;
+  height: 44px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+`;
+
+const InputStyle = styled(Input)`
+  display: block;
+  color: aliceblue;
+  height: 39px;
+  width: 500px;
+  @media (max-width: 768px) {
+    width: 200px;
+  }
+`;
 
 const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
   const [durationInMinutes, setDurationInMinutes] = useState(0);
@@ -146,8 +168,7 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
     <div className={styles.main_container}>
       <div className={styles.courses}>
         <div className={styles.title}>
-          <Input
-            style={inputStyleSmall}
+          <InputStyle
             id={'Title'}
             labelText={titleLabel}
             placeholder={titlePlaceholder}
@@ -156,7 +177,7 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
               setCourseData({ ...courseData, title: e.target.value })
             }
           />
-          <Button
+          <CreateButton
             text={createCourseButtonText}
             style={createButtonStyle}
             onClick={handleCreateCourse}
