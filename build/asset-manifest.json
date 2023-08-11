@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/reactcourse/static/css/main.beb706e7.css",
+    "main.js": "/reactcourse/static/js/main.570ff579.js",
+    "static/media/logo.png": "/reactcourse/static/media/logo.315d241143482d1ac664.png",
+    "index.html": "/reactcourse/index.html",
+    "main.beb706e7.css.map": "/reactcourse/static/css/main.beb706e7.css.map",
+    "main.570ff579.js.map": "/reactcourse/static/js/main.570ff579.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.beb706e7.css",
+    "static/js/main.570ff579.js"
+  ]
+}

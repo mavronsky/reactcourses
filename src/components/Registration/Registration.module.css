@@ -1,0 +1,42 @@
+.mainContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 100%;
+  height: 80%;
+}
+
+.regContainer {
+  display: block;
+  margin: 0 auto;
+  width: 500px;
+  height: 500px;
+}
+
+.reg_form {
+  display: flex;
+  margin: auto;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+}
+
+.registerLink {
+  color: rgb(5, 153, 239);
+  text-decoration: none;
+}
+
+.regContainer h1 {
+  color: aliceblue;
+  text-align: center;
+}
+
+.regContainer p {
+  text-align: center;
+}
+
+.errorText {
+  color: red;
+}

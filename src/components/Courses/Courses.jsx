@@ -1,4 +1,6 @@
 import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { mockedCoursesList, mockedAuthorsList } from '../../data/mockedData';
 import CourseCard from './components/CourseCard/CourseCard';
 import Button from '../../common/Button/Button';
@@ -9,6 +11,8 @@ import { pipeDuration } from '../../helpers/pipeDuration';
 import { createAddNewCourseButtonText } from '../../constants';
 
 const Courses = ({ toggleComponent }) => {
+  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState('');
 
   const handleSearchSubmit = (newSearchQuery) => {
@@ -29,14 +33,18 @@ const Courses = ({ toggleComponent }) => {
     );
   }, [searchQuery]);
 
+  const handleToAddCourse = () => {
+    navigate('/courses/add');
+  };
+
   return (
     <div className={styles.courses}>
       <div className={styles.searchbar}>
-        <SearchBar onSubmit={handleSearchSubmit} />
+        <SearchBar value={searchQuery} onSubmit={handleSearchSubmit} />
         <Button
           style={createButtonStyle}
           text={createAddNewCourseButtonText}
-          onClick={toggleComponent}
+          onClick={handleToAddCourse}
         />
       </div>
 
@@ -50,6 +58,7 @@ const Courses = ({ toggleComponent }) => {
               duration={pipeDuration(duration)}
               creationDate={creationDate}
               authors={authors.map((authorId) => authorsMap[authorId])}
+              id={id}
             />
           )
         )
@@ -65,6 +74,7 @@ const Courses = ({ toggleComponent }) => {
               duration={pipeDuration(duration)}
               creationDate={creationDate}
               authors={authors.map((authorId) => authorsMap[authorId])}
+              id={id}
             />
           )
         )

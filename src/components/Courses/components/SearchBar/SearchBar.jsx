@@ -18,12 +18,12 @@ const SearchButton = styled.button`
 const InputStyle = styled.input`
   display: block;
   color: black;
-  font-size: 25px;
+  font-size: 18px;
   margin-bottom: 18px;
   height: 39px;
   width: 300px;
   @media (max-width: 768px) {
-    width: 300px;
+    width: 176px;
   }
 `;
 
@@ -41,8 +41,15 @@ const SearchBar = ({ value, onSubmit }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault(); // Prevent the default form submission behavior
-    onSubmit(searchText.trim());
+    e.preventDefault(); // Предотвращаем стандартное поведение отправки формы
+
+    const trimmedSearchText = searchText.trim(); // Убираем лишние пробелы
+
+    if (trimmedSearchText.length === 0) {
+      onSubmit('');
+    } else {
+      onSubmit(trimmedSearchText);
+    }
   };
 
   return (

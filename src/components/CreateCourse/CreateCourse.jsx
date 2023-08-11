@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 
@@ -49,15 +51,52 @@ const CreateButton = styled(Button)`
 
 const InputStyle = styled(Input)`
   display: block;
-  color: aliceblue;
+  color: black;
+  margin-top: 10px;
+
   height: 39px;
   width: 500px;
+  font-size: 20px;
+  padding-left: 10px;
   @media (max-width: 768px) {
     width: 200px;
   }
 `;
 
+const InputDescStyle = styled(Input)`
+  display: flex;
+  font-size: 25px;
+  font-family: 'Roboto';
+  justify-content: center;
+  height: 130px;
+  width: 1500px;
+  margin-top: 10px;
+  border-radius: 5px;
+  @media (max-width: 768px) {
+    width: 327px;
+    font-size: 15px;
+  }
+  padding-left: 10px;
+`;
+
+const InputMediumStyle = styled(Input)`
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  width: 400px;
+  margin-top: 10px;
+  align-items: center;
+  border-radius: 5px;
+  padding-left: 10px;
+  @media (max-width: 768px) {
+    width: 200px;
+    font-size: 15px;
+  }
+`;
+
 const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
+  const navigate = useNavigate();
+
   const [durationInMinutes, setDurationInMinutes] = useState(0);
   const [newAuthorName, setNewAuthorName] = useState('');
   const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
@@ -129,7 +168,7 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
     });
 
     mockedCoursesList.push(newCourse);
-    toggleComponent(showCreateCourses);
+    navigate('/');
   };
 
   const handleAddToCourse = (authorId) => {
@@ -184,8 +223,7 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
           />
         </div>
         <div className={styles.desc_input}>
-          <Input
-            style={inputStyleLarge}
+          <InputDescStyle
             useTextarea={useTextarea}
             id={'description'}
             type={'textarea'}
@@ -203,8 +241,7 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
         <div className={styles.add_authors_container}>
           <div className={styles.duration_container}>
             <h1>Duration</h1>
-            <Input
-              style={inputStyleMedium}
+            <InputMediumStyle
               id={'duration'}
               placeholder={durationPlaceholder}
               labelText={durationLabel}
@@ -238,8 +275,7 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
           </div>
           <h1>Add author</h1>
           <div className={styles.author_name}>
-            <Input
-              style={inputStyleMedium}
+            <InputMediumStyle
               id={'author_name'}
               placeholder={authorNamePlaceholder}
               value={newAuthorName}

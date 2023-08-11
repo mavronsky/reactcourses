@@ -12,8 +12,10 @@ export const createButtonStyle = {
 export const createAuthorButtonStyle = {
   backgroundColor: '#ffdd12',
   width: '73px',
-  fontSize: '16px',
-  height: '40px',
+  fontSize: '15px',
+  color: 'black',
+  marginLeft: '8px',
+  height: '42px',
   cursor: 'pointer',
   border: 'none',
   marginTop: '11px',
@@ -53,9 +55,17 @@ export const logoutButtonStyle = {
   cursor: 'pointer',
   border: 'none',
   borderRadius: '5px',
-  ':hover': {
-    backgroundColor: 'blue', // Новый цвет при наведении
-  },
+};
+
+export const loginButtonStyle = {
+  backgroundColor: 'green',
+  width: '80px',
+  fontSize: '25px',
+  height: '50px',
+  color: 'white',
+  cursor: 'pointer',
+  border: 'none',
+  borderRadius: '5px',
 };
 
 export const addButtonStyle = {
