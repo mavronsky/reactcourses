@@ -1,11 +1,19 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import Input from '../../common/Input/Input.tsx'
+import Button from '../../common/Button/Button.tsx'
+import styles from './Registration.module.css'
+import styled from 'styled-components'
 
-import Input from '../../common/Input/Input';
-import Button from '../../common/Button/Button';
+interface RegistrationProps {
+  setRegistrationSuccessful: (successful: boolean) => void
+}
 
-import styles from './Registration.module.css';
-import styled from 'styled-components';
+interface User {
+  name: string
+  email: string
+  password: string
+}
 
 const RegistrationInputStyle = styled(Input)`
   display: block;
@@ -18,7 +26,7 @@ const RegistrationInputStyle = styled(Input)`
   @media (max-width: 768px) {
     width: 200px;
   }
-`;
+`
 
 const RegistrationButton = styled(Button)`
   background-color: green;
@@ -29,89 +37,92 @@ const RegistrationButton = styled(Button)`
   border: none;
   margin-top: 15px;
   border-radius: 5px;
-`;
+`
 
-function Registration({ setRegistrationSuccessful }) {
-  const navigate = useNavigate();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [nameError, setNameError] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [registrationError, setRegistrationError] = useState('');
-  const [emailExistsError, setEmailExistsError] = useState('');
+function Registration({
+  setRegistrationSuccessful,
+}: RegistrationProps): JSX.Element {
+  const navigate = useNavigate()
+  const [name, setName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [nameError, setNameError] = useState<string>('')
+  const [emailError, setEmailError] = useState<string>('')
+  const [passwordError, setPasswordError] = useState<string>('')
+  const [registrationError, setRegistrationError] = useState<string>('')
+  const [emailExistsError, setEmailExistsError] = useState<string>('')
 
-  async function handleRegistration(e) {
-    e.preventDefault();
-    setNameError('');
-    setEmailError('');
-    setPasswordError('');
-    setRegistrationError('');
+  async function handleRegistration(e: React.FormEvent) {
+    e.preventDefault()
+    setNameError('')
+    setEmailError('')
+    setPasswordError('')
+    setRegistrationError('')
 
-    const errors = [];
+    const errors: string[] = []
+
     if (name.trim() === '') {
-      setNameError('Name is required');
+      setNameError('Name is required')
     }
     if (email.trim() === '') {
-      setEmailError('Email is required');
+      setEmailError('Email is required')
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError('Invalid email format');
+      setEmailError('Invalid email format')
     }
     if (password.trim() === '') {
-      setPasswordError('Password is required');
+      setPasswordError('Password is required')
     }
     if (password.length < 6) {
-      setPasswordError('Password must be at least 6 characters.');
+      setPasswordError('Password must be at least 6 characters.')
     }
 
     if (errors.length > 0) {
-      alert(errors.join('\n'));
-      return;
+      alert(errors.join('\n'))
+      return
     }
 
     try {
-      const newUser = { name, email, password };
+      const newUser: User = { name, email, password }
       const response = await fetch('http://localhost:5001/register', {
         method: 'POST',
         body: JSON.stringify(newUser),
         headers: {
           'Content-Type': 'application/json',
         },
-      });
+      })
 
       if (response.ok) {
         try {
-          const result = await response.json();
+          const result = await response.json()
           if (!result.successful) {
+            // Handle unsuccessful registration
           } else {
-            console.log(result);
-            navigate('/login');
-            setRegistrationSuccessful(true);
+            console.log(result)
+            navigate('/login')
+            setRegistrationSuccessful(true)
           }
         } catch (jsonError) {
-          console.error('Invalid JSON response from the server:', jsonError);
+          console.error('Invalid JSON response from the server:', jsonError)
         }
       } else {
         try {
-          const errorMessage = await response.json();
-          console.error(errorMessage);
-          if (errorMessage.errors[0].includes('exists'));
-          {
-            setEmailExistsError('Email already exists');
-            return;
+          const errorMessage = await response.json()
+          console.error(errorMessage)
+          if (errorMessage.errors[0].includes('exists')) {
+            setEmailExistsError('Email already exists')
+            return
           }
         } catch (jsonError) {
           console.error(
             'Invalid JSON error response from the server:',
             jsonError
-          );
+          )
         }
       }
     } catch (error) {
-      console.error(error);
-      setPasswordError('Password must be at least 6 characters.');
-      return;
+      console.error(error)
+      setPasswordError('Password must be at least 6 characters.')
+      return
     }
   }
 
@@ -152,13 +163,13 @@ function Registration({ setRegistrationSuccessful }) {
         </form>
         <p>
           If you do not have an account, you can{' '}
-          <Link className={styles.registerLink} to="/login">
+          <a className={styles.registerLink} onClick={() => navigate('/login')}>
             login.
-          </Link>
+          </a>
         </p>
       </div>
     </div>
-  );
+  )
 }
 
-export default Registration;
+export default Registration

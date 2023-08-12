@@ -1,7 +1,7 @@
 .infoContainer {
   width: 90%;
   margin: 0 auto;
-  height: 85%;
+  height: 95%;
   border: 1px solid white;
 }
 
@@ -42,7 +42,7 @@
   display: block;
 
   padding: 1% 1%;
-  border: 5px solid white;
+  border: 1px solid white;
   width: 30%;
   color: aliceblue;
 }

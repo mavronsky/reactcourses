@@ -1,26 +1,31 @@
-import styles from './CourseInfo.module.css';
-import { useParams, Link } from 'react-router-dom';
-import { mockedCoursesList, mockedAuthorsList } from '../../data/mockedData';
-import { pipeDuration } from '../../helpers/pipeDuration';
+import React from 'react'
+import { useParams, Link } from 'react-router-dom'
+import { Course, Author } from '../../data/types'
+import { mockedCoursesList, mockedAuthorsList } from '../../data/mockedData'
+import { pipeDuration } from '../../helpers/pipeDuration'
+import styles from './CourseInfo.module.css'
 
 function CourseInfo() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>()
 
-  // Найти курс в mockedCoursesList по id
-  const course = mockedCoursesList.find((course) => course.id === id);
+  const course: Course | undefined = mockedCoursesList.find(
+    (course) => course.id === id
+  )
 
-  // Получить список авторов курса
-  const authorIds = course.authors;
+  if (!course) {
+    return <div>No course found.</div>
+  }
 
-  // Найти соответствующих авторов в mockedAuthorsList
-  const authors = mockedAuthorsList.filter((author) =>
+  const authorIds: string[] = course.authors
+
+  const authors: Author[] = mockedAuthorsList.filter((author) =>
     authorIds.includes(author.id)
-  );
+  )
 
   return (
     <div className={styles.infoContainer}>
       <Link to="/">
-        <h3> Back to all courses</h3>{' '}
+        <h3> Back to all courses</h3>
       </Link>
 
       <div className={styles.titleInfo}>
@@ -41,7 +46,7 @@ function CourseInfo() {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-export default CourseInfo;
+export default CourseInfo

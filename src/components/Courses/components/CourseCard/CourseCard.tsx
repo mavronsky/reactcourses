@@ -1,17 +1,27 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import React from 'react'
 
-import Button from '../../../../common/Button/Button';
-import styles from './CourseCard.module.css';
+import Button from '../../../../common/Button/Button.tsx'
+import styles from './CourseCard.module.css'
 
-import { showButtonStyle } from '../../../../styles';
-import { showCourseButtonText } from '../../../../constants';
+import { showButtonStyle } from '../../../../styles.js'
+import { showCourseButtonText } from '../../../../constants.js'
 
-function CourseCard(props) {
-  const navigate = useNavigate();
+interface CourseCardProps {
+  id: string
+  title: string
+  description: string
+  authors: string[]
+  duration: string
+  creationDate: string
+}
+
+function CourseCard(props: CourseCardProps) {
+  const navigate = useNavigate()
 
   const navigateToInfo = () => {
-    navigate(`courseinfo/${props.id}`);
-  };
+    navigate(`courseinfo/${props.id}`)
+  }
 
   return (
     <div className={styles.course_card}>
@@ -36,7 +46,7 @@ function CourseCard(props) {
         />
       </div>
     </div>
-  );
+  )
 }
 
-export default CourseCard;
+export default CourseCard

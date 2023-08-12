@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../helpers/authContext';
-import Input from '../../common/Input/Input';
-import Button from '../../common/Button/Button';
-import styles from './Login.module.css';
-import styled from 'styled-components';
+import React, { useState, SyntheticEvent } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import { useAuth } from '../../helpers/authContext'
 
+import Input from '../../common/Input/Input'
+import Button from '../../common/Button/Button'
+
+import styles from './Login.module.css'
+import styled from 'styled-components'
 const LoginInputStyle = styled(Input)`
   display: block;
   color: black;
@@ -17,7 +18,7 @@ const LoginInputStyle = styled(Input)`
   @media (max-width: 768px) {
     width: 200px;
   }
-`;
+`
 
 const LoginButton = styled(Button)`
   background-color: green;
@@ -27,81 +28,86 @@ const LoginButton = styled(Button)`
   color: white;
   border: none;
   border-radius: 5px;
-`;
+`
 
-function Login({ registrationSuccessful }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [loginError, setLoginError] = useState('');
+interface LoginProps {
+  registrationSuccessful: boolean
+}
 
-  const navigate = useNavigate();
-  const { login } = useAuth();
+function Login({ registrationSuccessful }: LoginProps) {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [emailError, setEmailError] = useState('')
+  const [passwordError, setPasswordError] = useState('')
+  const [loginError, setLoginError] = useState('')
 
-  async function handleLogin(e) {
-    e.preventDefault();
-    setLoginError('');
-    setEmailError('');
-    setPasswordError('');
+  const navigate = useNavigate()
 
-    const errors = [];
+  const { login } = useAuth()
+
+  async function handleLogin(e: SyntheticEvent) {
+    e.preventDefault()
+    setLoginError('')
+    setEmailError('')
+    setPasswordError('')
+
+    const errors: string[] = []
 
     if (email.trim() === '') {
-      setEmailError('Email is required');
+      setEmailError('Email is required')
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError('Invalid email format');
+      setEmailError('Invalid email format')
     }
 
     if (password.trim() === '') {
-      setPasswordError('Password is required');
+      setPasswordError('Password is required')
     } else if (password.length < 6) {
-      setPasswordError('Password must be at least 6 characters.');
+      setPasswordError('Password must be at least 6 characters.')
     }
 
     if (errors.length > 0) {
-      alert(errors.join('\n'));
-      return;
+      alert(errors.join('\n'))
+      return
     }
 
     try {
-      const user = { email, password };
+      const user = { email, password }
       const response = await fetch('http://localhost:5001/login', {
         method: 'POST',
         body: JSON.stringify(user),
         headers: {
           'Content-Type': 'application/json',
         },
-      });
+      })
 
       if (response.ok) {
         try {
-          const result = await response.json();
+          const result = await response.json()
           if (!result.successful) {
-            setLoginError(result.errors[0]);
-            console.error(result.errors[0]);
+            setLoginError(result.errors[0])
+            console.error(result.errors[0])
           } else {
-            localStorage.setItem('token', result.result);
-            localStorage.setItem('username', result.user.name);
-            login(result.user.name);
-            navigate('/');
+            localStorage.setItem('token', result.result)
+            localStorage.setItem('username', result.user.name)
+            login(result.user.name)
+            navigate('/')
           }
         } catch (jsonError) {
-          console.error('Invalid JSON response from the server:', jsonError);
+          console.error('Invalid JSON response from the server:', jsonError)
         }
       } else {
         try {
-          const errorMessage = await response.json();
-          console.error(errorMessage);
+          const errorMessage = await response.json()
+          console.error(errorMessage)
         } catch (jsonError) {
           console.error(
             'Invalid JSON error response from the server:',
             jsonError
-          );
+          )
         }
       }
     } catch (error) {
-      console.error(error);
+      console.error(error)
     }
   }
 
@@ -157,14 +163,17 @@ function Login({ registrationSuccessful }) {
           </form>
           <p>
             If you do not have an account, you can{' '}
-            <Link className={styles.registerLink} to="/registration">
+            <a
+              className={styles.registerLink}
+              onClick={() => navigate('/registration')}
+            >
               register.
-            </Link>
+            </a>
           </p>
         </div>
       )}
     </div>
-  );
+  )
 }
 
-export default Login;
+export default Login

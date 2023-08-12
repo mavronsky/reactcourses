@@ -26,6 +26,7 @@
 .registerLink {
   color: rgb(5, 153, 239);
   text-decoration: none;
+  cursor: pointer;
 }
 
 .loginContainer h1 {

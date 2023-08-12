@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
+import styled from 'styled-components'
 
-import { v4 as uuidv4 } from 'uuid';
-import styled from 'styled-components';
+import Button from '../../common/Button/Button.tsx'
+import Input from '../../common/Input/Input.tsx'
 
-import Button from '../../common/Button/Button';
-import Input from '../../common/Input/Input';
+import styles from './CreateCourse.module.css'
 
-import styles from './CreateCourse.module.css';
-
-import { getCurrentDateFormatted } from '../../helpers/dateGenerator';
+import { getCurrentDateFormatted } from '../../helpers/dateGenerator.js'
 
 import {
   createCourseButtonText,
@@ -24,11 +23,11 @@ import {
   authorNameLabel,
   durationLabel,
   titleLabel,
-} from './../../constants';
+} from '../../constants.js'
 
-import { pipeDuration } from '../../helpers/pipeDuration';
+import { pipeDuration } from '../../helpers/pipeDuration.js'
 
-import { mockedAuthorsList, mockedCoursesList } from '../../data/mockedData';
+import { mockedAuthorsList, mockedCoursesList } from '../../data/mockedData.js'
 import {
   createButtonStyle,
   deleteButtonStyle,
@@ -37,7 +36,50 @@ import {
   inputStyleMedium,
   createAuthorButtonStyle,
   addButtonStyle,
-} from '../../styles';
+} from '../../styles.js'
+
+// Define types for the author and course data
+interface Author {
+  id: string
+  name: string
+}
+
+interface Course {
+  id: string
+  title: string
+  description: string
+  creationDate: string
+  duration: number
+  authors: Author[]
+}
+
+// Define props for InputStyle
+interface InputStyleProps {
+  labelText: string
+  placeholder: string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+// Define props for InputDescStyle
+interface InputDescStyleProps {
+  useTextarea: boolean
+  labelText: string
+  placeholder: string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void
+}
+
+// Define props for InputMediumStyle
+interface InputMediumStyleProps {
+  labelText: string
+  placeholder: string
+  value: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+// Define props for CreateCourse component
+interface CreateCourseProps {}
 
 const CreateButton = styled(Button)`
   background-color: green;
@@ -47,7 +89,7 @@ const CreateButton = styled(Button)`
   color: white;
   border: none;
   border-radius: 5px;
-`;
+`
 
 const InputStyle = styled(Input)`
   display: block;
@@ -61,7 +103,7 @@ const InputStyle = styled(Input)`
   @media (max-width: 768px) {
     width: 200px;
   }
-`;
+`
 
 const InputDescStyle = styled(Input)`
   display: flex;
@@ -77,7 +119,7 @@ const InputDescStyle = styled(Input)`
     font-size: 15px;
   }
   padding-left: 10px;
-`;
+`
 
 const InputMediumStyle = styled(Input)`
   display: flex;
@@ -92,44 +134,52 @@ const InputMediumStyle = styled(Input)`
     width: 200px;
     font-size: 15px;
   }
-`;
+`
 
-const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
-  const navigate = useNavigate();
+const CreateCourse: React.FC<CreateCourseProps> = () => {
+  const navigate = useNavigate()
 
-  const [durationInMinutes, setDurationInMinutes] = useState(0);
-  const [newAuthorName, setNewAuthorName] = useState('');
-  const [authorsList, setAuthorsList] = useState(mockedAuthorsList);
-  const [selectedAuthors, setSelectedAuthors] = useState([]);
+  const [durationInMinutes, setDurationInMinutes] = useState<number>(0)
+  const [newAuthorName, setNewAuthorName] = useState<string>('')
+  const [authorsList, setAuthorsList] = useState<Author[]>(mockedAuthorsList)
+  const [selectedAuthors, setSelectedAuthors] = useState<Author[]>([])
 
-  const useTextarea = true;
+  const useTextarea = true
 
-  const [courseData, setCourseData] = useState({
+  const [courseData, setCourseData] = useState<Course>({
     id: '',
     title: '',
     description: '',
     creationDate: '',
     duration: 0,
     authors: [],
-  });
+  })
 
-  const handleAuthorNameChange = (e) => {
-    setNewAuthorName(e.target.value);
-  };
+  const handleAuthorNameChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setNewAuthorName(e.target.value)
+  }
 
   const handleCreateAuthor = () => {
     if (newAuthorName.trim() !== '') {
       const newAuthor = {
         id: uuidv4(),
         name: newAuthorName.trim(),
-      };
-      setNewAuthorName('');
+      }
+      setNewAuthorName('')
 
-      mockedAuthorsList.push(newAuthor);
+      mockedAuthorsList.push(newAuthor)
 
-      setAuthorsList([...mockedAuthorsList]);
+      setAuthorsList([...mockedAuthorsList])
     }
-  };
+  }
+
+  const handleCourseDescriptionChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setCourseData({ ...courseData, description: e.target.value })
+  }
 
   const handleCreateCourse = () => {
     if (
@@ -138,16 +188,16 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
       durationInMinutes === 0 ||
       courseData.authors.length === 0
     ) {
-      alert('Please fill all the required fields before creating the course.');
-      return;
+      alert('Please fill all the required fields before creating the course.')
+      return
     }
 
     if (!courseData.description || courseData.description.trim().length < 2) {
-      alert('Description should be at least 2 characters long.');
-      return;
+      alert('Description should be at least 2 characters long.')
+      return
     }
 
-    const formattedDate = getCurrentDateFormatted(); // Call the function to get the current date
+    const formattedDate = getCurrentDateFormatted() // Call the function to get the current date
 
     const newCourse = {
       id: uuidv4(),
@@ -156,7 +206,7 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
       creationDate: formattedDate,
       duration: durationInMinutes,
       authors: courseData.authors.map((author) => author.id),
-    };
+    }
 
     setCourseData({
       ...courseData,
@@ -165,43 +215,49 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
       creationDate: '',
       duration: 0,
       authors: [],
-    });
+    })
 
-    mockedCoursesList.push(newCourse);
-    navigate('/');
-  };
+    mockedCoursesList.push(newCourse)
+    navigate('/')
+  }
 
-  const handleAddToCourse = (authorId) => {
-    const selectedAuthor = authorsList.find((author) => author.id === authorId);
+  const handleAddToCourse = (authorId: string) => {
+    const selectedAuthor = authorsList.find((author) => author.id === authorId)
     if (selectedAuthor) {
-      setSelectedAuthors([...selectedAuthors, selectedAuthor]);
+      setSelectedAuthors([...selectedAuthors, selectedAuthor])
 
       if (!courseData.authors.some((author) => author.id === authorId)) {
         setCourseData({
           ...courseData,
           authors: [...courseData.authors, selectedAuthor],
-        });
+        })
       }
 
-      setAuthorsList(authorsList.filter((author) => author.id !== authorId));
+      setAuthorsList(authorsList.filter((author) => author.id !== authorId))
     }
-  };
+  }
 
-  const handleRemoveFromCourse = (authorId) => {
+  //   const handleCourseDescriptionChange = (
+  //   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   setCourseData({ ...courseData, description: e.target.value });
+  // };
+
+  const handleRemoveFromCourse = (authorId: string) => {
     const removedAuthor = selectedAuthors.find(
       (author) => author.id === authorId
-    );
+    )
     if (removedAuthor) {
-      setAuthorsList([...authorsList, removedAuthor]);
+      setAuthorsList([...authorsList, removedAuthor])
       setSelectedAuthors(
         selectedAuthors.filter((author) => author.id !== authorId)
-      );
+      )
       setCourseData({
         ...courseData,
         authors: courseData.authors.filter((author) => author.id !== authorId),
-      });
+      })
     }
-  };
+  }
 
   return (
     <div className={styles.main_container}>
@@ -230,9 +286,7 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
             labelText={descriptionLabel}
             placeholder={descriptionPlaceholder}
             value={courseData.description}
-            onChange={(e) =>
-              setCourseData({ ...courseData, description: e.target.value })
-            }
+            onChange={handleCourseDescriptionChange}
           />
         </div>
       </div>
@@ -246,25 +300,25 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
               placeholder={durationPlaceholder}
               labelText={durationLabel}
               onChange={(e) => {
-                const durationValue = e.target.value;
+                const durationValue = e.target.value
 
-                if (!isNaN(durationValue)) {
-                  const durationInMinutes = parseInt(durationValue);
+                if (!isNaN(parseInt(durationValue))) {
+                  const durationInMinutes = parseInt(durationValue)
                   if (durationInMinutes >= 0) {
-                    setDurationInMinutes(durationInMinutes);
+                    setDurationInMinutes(durationInMinutes)
                   }
                 }
                 const durationInMinutes =
-                  durationValue === '' ? 0 : parseInt(durationValue);
+                  durationValue === '' ? 0 : parseInt(durationValue)
 
                 if (durationInMinutes >= 0) {
-                  setDurationInMinutes(durationInMinutes);
+                  setDurationInMinutes(durationInMinutes)
                 }
               }}
               onKeyPress={(e) => {
-                const isValidKey = /^[0-9\b]+$/.test(e.key);
+                const isValidKey = /^[0-9\b]+$/.test(e.key)
                 if (!isValidKey) {
-                  e.preventDefault();
+                  e.preventDefault()
                 }
               }}
             />
@@ -327,7 +381,7 @@ const CreateCourse = ({ toggleComponent, showCreateCourses }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CreateCourse;
+export default CreateCourse
