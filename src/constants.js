@@ -13,19 +13,28 @@ export const STRINGS = {
   loginSuccessSubheader: 'LOGIN',
 
   // Registration
-  registrationHeader: 'Registration',
+  registrationTitle: 'Registration',
   nameLabel: 'Name',
-  namePlaceholder: 'Enter name:',
-  registrationButtonText: 'Registration',
-  loginLinkText: 'login.',
-  existingEmailError: 'Email already exists',
+  emailLabel: 'E-mail',
+  passwordLabel: 'Password',
+  namePlaceholder: 'Enter name',
+  emailPlaceholder: 'Enter email',
+  passwordPlaceholder: 'Password',
+
+  // Error messages
   nameRequiredError: 'Name is required',
+  emailRequiredError: 'Email is required',
+  invalidEmailFormatError: 'Invalid email format',
   passwordRequiredError: 'Password is required',
   shortPasswordError: 'Password must be at least 6 characters.',
-  registrationError: 'Registration error',
-  registrationSuccessMessage: 'SUCCESS! NOW YOU CAN TO',
-  emailRequiredError: 'Email is required',
-  invalidEmailError: 'Invalid email format',
+  emailExistsError: 'Email already exists',
+  invalidJsonResponseError: 'Invalid JSON response from the server:',
+  invalidJsonErrorResponseError: 'Invalid JSON error response from the server.',
+
+  // Other texts
+  registrationButton: 'Registration',
+  notHaveAccountText: 'If you do not have an account, you can',
+  loginLinkText: 'login.',
 
   // Course
   createCourseButtonText: 'CREATE COURSE',

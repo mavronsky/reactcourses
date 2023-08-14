@@ -15,6 +15,7 @@ function Login() {
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [loginError, setLoginError] = useState('')
+  const [invalidDataError, setInvalidDataError] = useState('')
 
   const navigate = useNavigate()
 
@@ -73,7 +74,10 @@ function Login() {
       } else {
         try {
           const errorMessage = await response.json()
-          console.error(errorMessage)
+          console.error(errorMessage.result)
+          if (errorMessage.result.includes('Invalid data')) {
+            setInvalidDataError('Invalid data.')
+          }
         } catch (jsonError) {
           console.error(
             'Invalid JSON error response from the server:',
@@ -118,6 +122,9 @@ function Login() {
               type="submit"
               text={STRINGS.loginButtonText}
             />
+            {invalidDataError && (
+              <p className={styles.errorText}>{invalidDataError}</p>
+            )}
           </form>
         </div>
       ) : (
@@ -142,6 +149,9 @@ function Login() {
               <p className={styles.errorText}>{passwordError}</p>
             )}
             {loginError && <p className={styles.errorText}>{loginError}</p>}
+            {invalidDataError && (
+              <p className={styles.errorText}>{invalidDataError}</p>
+            )}
             <Button
               className={styles.buttonStyle}
               type="submit"

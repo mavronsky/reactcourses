@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 
 import Input from '../../common/Input/Input.tsx'
 import Button from '../../common/Button/Button.tsx'
-
 import styles from './Registration.module.css'
 
 import { useAuth } from '../../authContext.tsx'
+
 import { STRINGS } from './../../constants.js'
 
 interface User {
@@ -17,63 +17,44 @@ interface User {
 
 function Registration(): JSX.Element {
   const navigate = useNavigate()
+
   const { setRegistrationSuccessful } = useAuth()
 
-  const [formData, setFormData] = useState<User>({
-    name: '',
-    email: '',
-    password: '',
-  })
-
-  const [errors, setErrors] = useState<{
-    name: string | null
-    email: string | null
-    password: string | null
-    registration: string | null
-    emailExists: string | null
-  }>({
-    name: null,
-    email: null,
-    password: null,
-    registration: null,
-    emailExists: null,
-  })
+  const [name, setName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [nameRequiredError, setNameRequiredError] = useState<string>('')
+  const [emailRequiredError, setEmailRequiredError] = useState<string>('')
+  const [passwordError, setPasswordError] = useState<string>('')
+  const [registrationError, setRegistrationError] = useState<string>('')
+  const [emailExistsError, setEmailExistsError] = useState<string>('')
 
   async function handleRegistration(e: React.FormEvent) {
     e.preventDefault()
-    setErrors({
-      name: null,
-      email: null,
-      password: null,
-      registration: null,
-      emailExists: null,
-    })
+    setNameRequiredError('')
+    setEmailRequiredError('')
+    setPasswordError('')
+    setRegistrationError('')
 
-    const { name, email, password } = formData
-    const validationErrors: string[] = []
+    const errors: string[] = []
 
     if (name.trim() === '') {
-      validationErrors.push(STRINGS.nameRequiredError)
+      setNameRequiredError(STRINGS.nameRequiredError)
+    }
+    if (email.trim() === '') {
+      setEmailRequiredError(STRINGS.emailRequiredError)
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      setEmailRequiredError(STRINGS.invalidEmailFormatError)
+    }
+    if (password.trim() === '') {
+      setPasswordError(STRINGS.passwordRequiredError)
+    }
+    if (password.length < 6) {
+      setPasswordError(STRINGS.shortPasswordError)
     }
 
-    if (email.trim() === '' || !/\S+@\S+\.\S+/.test(email)) {
-      validationErrors.push(
-        email.trim() === ''
-          ? STRINGS.emailRequiredError
-          : STRINGS.invalidEmailError
-      )
-    }
-
-    if (password.trim() === '' || password.length < 6) {
-      validationErrors.push(
-        password.trim() === ''
-          ? STRINGS.passwordRequiredError
-          : STRINGS.shortPasswordError
-      )
-    }
-
-    if (validationErrors.length > 0) {
-      alert(validationErrors.join('\n'))
+    if (errors.length > 0) {
+      alert(errors.join('\n'))
       return
     }
 
@@ -88,89 +69,89 @@ function Registration(): JSX.Element {
       })
 
       if (response.ok) {
-        const result = await response.json()
-        if (!result.successful) {
-          setErrors({ ...errors, registration: STRINGS.registrationError })
-        } else {
-          console.log(result)
-          navigate('/login')
-          setRegistrationSuccessful(true)
+        try {
+          const result = await response.json()
+          if (!result.successful) {
+            // Handle unsuccessful registration
+          } else {
+            console.log(result)
+            navigate('/login')
+            setRegistrationSuccessful(true)
+          }
+        } catch (jsonError) {
+          console.error(STRINGS.invalidJsonResponseError, jsonError)
         }
       } else {
         try {
           const errorMessage = await response.json()
           console.error(errorMessage)
           if (errorMessage.errors[0].includes('exists')) {
-            setErrors({ ...errors, emailExists: STRINGS.existingEmailError })
+            setEmailExistsError(STRINGS.emailExistsError)
+            return
           }
         } catch (jsonError) {
-          console.error(
-            'Invalid JSON error response from the server:',
-            jsonError
-          )
+          console.error(STRINGS.invalidJsonErrorResponseError, jsonError)
         }
       }
     } catch (error) {
       console.error(error)
-      setErrors({ ...errors, registration: STRINGS.registrationError })
+      setPasswordError(STRINGS.shortPasswordError)
+      return
     }
   }
-
   return (
     <div className={styles.mainContainer}>
       <div className={styles.regContainer}>
-        <h1>{STRINGS.registrationHeader}</h1>
+        <h1>{STRINGS.registrationTitle}</h1>
         <form className={styles.reg_form} onSubmit={handleRegistration}>
           <Input
             className={styles.inputStyle}
             labelText={STRINGS.nameLabel}
             placeholder={STRINGS.namePlaceholder}
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
-          {errors.name && <p className={styles.errorText}>{errors.name}</p>}
+          {nameRequiredError && (
+            <p className={styles.errorText}>{nameRequiredError}</p>
+          )}
           <Input
             className={styles.inputStyle}
             labelText={STRINGS.emailLabel}
             placeholder={STRINGS.emailPlaceholder}
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          {errors.emailExists && (
-            <p className={styles.errorText}>{errors.emailExists}</p>
+          {emailExistsError && (
+            <p className={styles.errorText}>{emailExistsError}</p>
           )}
-          {errors.email && <p className={styles.errorText}>{errors.email}</p>}
+          {emailRequiredError && (
+            <p className={styles.errorText}>{emailRequiredError}</p>
+          )}
           <Input
             className={styles.inputStyle}
             type="password"
             labelText={STRINGS.passwordLabel}
             placeholder={STRINGS.passwordPlaceholder}
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          {errors.password && (
-            <p className={styles.errorText}>{errors.password}</p>
-          )}
-          {errors.registration && (
-            <p className={styles.errorText}>{STRINGS.registrationError}</p>
+          {passwordError && <p className={styles.errorText}>{passwordError}</p>}
+          {registrationError && (
+            <p className={styles.errorText}>{registrationError}</p>
           )}
           <Button
             className={styles.buttonStyle}
             type="submit"
-            text={STRINGS.registrationButtonText}
+            text={STRINGS.registrationButton}
           />
         </form>
         <p>
-          If you do not have an account, you can{' '}
+          {STRINGS.notHaveAccountText}{' '}
           <span
             className={styles.registerLink}
             onClick={() => navigate('/login')}
           >
-            {STRINGS.loginLinkText}
+            {STRINGS.loginLinkText}.
           </span>
         </p>
       </div>
