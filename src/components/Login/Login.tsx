@@ -37,8 +37,6 @@ function Login() {
 
     if (password.trim() === '') {
       setPasswordError('Password is required')
-    } else if (password.length < 6) {
-      setPasswordError('Password must be at least 6 characters.')
     }
 
     if (errors.length > 0) {
@@ -83,6 +81,7 @@ function Login() {
             'Invalid JSON error response from the server:',
             jsonError
           )
+          setInvalidDataError('')
         }
       }
     } catch (error) {

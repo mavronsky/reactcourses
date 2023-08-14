@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom'
 
 import Input from '../../common/Input/Input.tsx'
 import Button from '../../common/Button/Button.tsx'
+
 import styles from './Registration.module.css'
 
 import { useAuth } from '../../authContext.tsx'
-
 import { STRINGS } from './../../constants.js'
 
 interface User {
