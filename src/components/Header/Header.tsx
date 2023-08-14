@@ -1,19 +1,13 @@
 import React from 'react'
-import { Link, useNavigate, Outlet, useLocation } from 'react-router-dom'
-import { useAuth } from '../../helpers/authContext'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useAuth } from '../../authContext'
 import styles from './Header.module.css'
 import Logo from './components/Logo/Logo'
 import Button from '../../common/Button/Button'
-import { logoutButtonStyle, loginButtonStyle } from '../../styles'
-import { logoutButtonText } from '../../constants'
+import { STRINGS } from '../../constants'
 
-interface HeaderProps {
-  loggedIn: boolean
-  setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-function Header(props: HeaderProps): JSX.Element {
-  const { loggedIn, username, logout } = useAuth()
+function Header(): JSX.Element {
+  const { loggedIn, logout, username } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -38,23 +32,20 @@ function Header(props: HeaderProps): JSX.Element {
         </div>
         {loggedIn ? (
           <Button
-            style={logoutButtonStyle}
+            className={styles.logoutButtonStyle}
             onClick={handleLogout}
-            text={logoutButtonText}
+            text={STRINGS.logoutButtonText}
           />
         ) : (
           !isLoginPage && (
-            <Link to="/login">
-              <Button
-                style={loginButtonStyle}
-                onClick={navigateToLogin}
-                text={'Login'}
-              />
-            </Link>
+            <Button
+              className={styles.loginButtonStyle}
+              onClick={navigateToLogin}
+              text={'Login'}
+            />
           )
         )}
       </div>
-      <Outlet />
     </>
   )
 }

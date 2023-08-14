@@ -1,54 +1,37 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react'
 import styles from './SearchBar.module.css'
 import styled from 'styled-components'
-import { searchButtonText, searchPlaceholder } from '../../../../constants'
+import { STRINGS } from '../../../../constants'
+
+import Input from '../../../../common/Input/Input'
+import Button from '../../../../common/Button/Button'
 
 interface SearchBarProps {
   value: string
   onSubmit: (searchText: string) => void
 }
 
-const SearchButton = styled.button`
-  background-color: blue;
-  width: 67px;
-  font-size: 15px;
-  height: 42px;
-  color: white;
-  cursor: pointer;
-  border: none;
-  margin-left: 2px;
-  border-radius: 0px 5px 5px 0px;
-`
-
-const InputStyle = styled.input`
-  display: block;
-  color: black;
-  font-size: 18px;
-  margin-bottom: 18px;
-  height: 39px;
-  width: 300px;
-  @media (max-width: 768px) {
-    width: 176px;
-  }
-`
-
 const SearchBar: React.FC<SearchBarProps> = ({ value, onSubmit }) => {
   const [searchText, setSearchText] = useState<string>(value)
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const newSearchText = e.target.value
 
-    if (newSearchText.length === 0) {
-      onSubmit('')
-    }
+    if (e.target instanceof HTMLInputElement) {
+      if (newSearchText.length === 0) {
+        onSubmit('')
+      }
 
-    setSearchText(newSearchText)
+      setSearchText(newSearchText)
+    }
   }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault() // Предотвращаем стандартное поведение отправки формы
+    e.preventDefault()
 
-    const trimmedSearchText = searchText.trim() // Убираем лишние пробелы
+    const trimmedSearchText = searchText.trim()
 
     if (trimmedSearchText.length === 0) {
       onSubmit('')
@@ -59,13 +42,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ value, onSubmit }) => {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <InputStyle
+      <Input
+        className={styles.inputStyle}
         type="text"
         onChange={handleInputChange}
-        placeholder={searchPlaceholder}
+        placeholder={STRINGS.searchPlaceholder}
         value={searchText}
       />
-      <SearchButton type="submit">{searchButtonText}</SearchButton>
+      <Button
+        className={styles.searchButton}
+        type="submit"
+        text={STRINGS.searchButtonText}
+      />
     </form>
   )
 }

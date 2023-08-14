@@ -5,7 +5,7 @@ import Button from '../../../../common/Button/Button.tsx'
 import styles from './CourseCard.module.css'
 
 import { showButtonStyle } from '../../../../styles.js'
-import { showCourseButtonText } from '../../../../constants.js'
+import { STRINGS } from '../../../../constants.js'
 
 interface CourseCardProps {
   id: string
@@ -40,7 +40,7 @@ function CourseCard(props: CourseCardProps) {
           Created: <span>{props.creationDate}</span>
         </p>
         <Button
-          text={showCourseButtonText}
+          text={STRINGS.showCourseButtonText}
           onClick={navigateToInfo}
           style={showButtonStyle}
         />

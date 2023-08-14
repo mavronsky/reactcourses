@@ -112,3 +112,118 @@
     width: 90%;
   }
 }
+
+/* Buttons */
+
+.createButtonStyle {
+  background-color: 'green';
+  width: '73px';
+  font-size: '14px';
+  height: '44px';
+  color: 'white';
+  cursor: 'pointer';
+  border: 'none';
+  border-radius: '5px';
+}
+
+.createAuthorButtonStyle {
+  background-color: #ffdd12;
+  width: 73px;
+  font-size: 15px;
+  color: black;
+  margin-left: 8px;
+  height: 42px;
+  cursor: pointer;
+  border: none;
+  margin-top: 11px;
+  border-radius: 0 5px 5px 0px;
+}
+
+.deleteButtonStyle {
+  background-color: darkred;
+  width: 80px;
+  font-size: 20px;
+  height: 35px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.createButtonStyle {
+  background-color: green;
+  width: 73px;
+  font-size: 14px;
+  height: 44px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.addButtonStyle {
+  background-color: green;
+  width: 70px;
+  font-size: 20px;
+  height: 35px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Inputs */
+
+.inputSmallStyle {
+  display: block;
+  color: black;
+  margin-top: 10px;
+
+  height: 39px;
+  width: 500px;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
+@media (max-width: 768px) {
+  .inputSmallStyle {
+    width: 200px;
+  }
+}
+
+.inputMediumStyle {
+  display: flex;
+  justify-content: center;
+  height: 40px;
+  width: 400px;
+  margin-top: 10px;
+  align-items: center;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+@media (max-width: 768px) {
+  .inputMediumStyle {
+    width: 200px;
+    font-size: 15px;
+  }
+}
+
+.inputDescStyle {
+  display: flex;
+  font-size: 25px;
+  font-family: 'Roboto';
+  justify-content: center;
+  height: 130px;
+  width: 1500px;
+  margin-top: 10px;
+  border-radius: 5px;
+  padding-left: 10px;
+}
+
+@media (max-width: 768px) {
+  .inputDescStyle {
+    width: 327px;
+    font-size: 15px;
+  }
+}

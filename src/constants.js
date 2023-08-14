@@ -1,29 +1,48 @@
-//// Button Texts
+export const STRINGS = {
+  // Login
+  loginTitle: 'Login',
+  emailLabel: 'E-mail',
+  emailPlaceholder: 'Enter e-mail:',
+  passwordLabel: 'Password',
+  passwordPlaceholder: 'Enter password:',
+  loginButtonText: 'Login',
+  loginHeader: 'Login',
+  registerAccountText: 'If you do not have an account, you can',
+  registerLinkText: 'register.',
+  loginSuccessHeader: 'SUCCESS! NOW YOU CAN TO',
+  loginSuccessSubheader: 'LOGIN',
 
-export const createCourseButtonText = 'CREATE COURSE';
-export const createCourseButtonAuthorText = 'CREATE AUTHOR';
-export const addButtonText = 'ADD';
-export const deleteButtonText = 'DELETE';
-export const searchButtonText = 'SEARCH';
-export const logoutButtonText = 'LOGOUT';
-export const createAddNewCourseButtonText = 'ADD NEW COURSE';
-export const showCourseButtonText = 'SHOW COURSE';
+  // Registration
+  registrationHeader: 'Registration',
+  nameLabel: 'Name',
+  namePlaceholder: 'Enter name:',
+  registrationButtonText: 'Registration',
+  loginLinkText: 'login.',
+  existingEmailError: 'Email already exists',
+  nameRequiredError: 'Name is required',
+  passwordRequiredError: 'Password is required',
+  shortPasswordError: 'Password must be at least 6 characters.',
+  registrationError: 'Registration error',
+  registrationSuccessMessage: 'SUCCESS! NOW YOU CAN TO',
+  emailRequiredError: 'Email is required',
+  invalidEmailError: 'Invalid email format',
 
-///
-
-export const userNameText = 'Eduard';
-
-/// Input Placeholders
-
-export const searchPlaceholder = 'Enter name course:';
-export const titlePlaceholder = 'Enter title:';
-export const descriptionPlaceholder = 'Enter description:';
-export const authorNamePlaceholder = 'Enter author name:';
-export const durationPlaceholder = 'Enter duration in minutes:';
-
-/// Label Texts
-
-export const titleLabel = 'Title';
-export const descriptionLabel = 'Description';
-export const authorNameLabel = 'Author name';
-export const durationLabel = 'Duration';
+  // Course
+  createCourseButtonText: 'CREATE COURSE',
+  createCourseButtonAuthorText: 'CREATE AUTHOR',
+  addButtonText: 'ADD',
+  deleteButtonText: 'DELETE',
+  searchButtonText: 'SEARCH',
+  logoutButtonText: 'LOGOUT',
+  createAddNewCourseButtonText: 'ADD NEW COURSE',
+  showCourseButtonText: 'SHOW COURSE',
+  searchPlaceholder: 'Enter course name:',
+  titlePlaceholder: 'Enter title:',
+  descriptionPlaceholder: 'Enter description:',
+  authorNamePlaceholder: 'Enter author name:',
+  durationPlaceholder: 'Enter duration in minutes:',
+  titleLabel: 'Title',
+  descriptionLabel: 'Description',
+  authorNameLabel: 'Author name',
+  durationLabel: 'Duration',
+}

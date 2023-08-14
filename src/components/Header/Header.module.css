@@ -30,3 +30,25 @@
     right: 23%;
   }
 }
+
+.logoutButtonStyle {
+  background-color: red;
+  width: 70px;
+  font-size: 15px;
+  height: 35px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+
+.loginButtonStyle {
+  background-color: green;
+  width: 80px;
+  font-size: 25px;
+  height: 50px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}

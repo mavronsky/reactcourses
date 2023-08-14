@@ -3,7 +3,7 @@ import styles from './Input.module.css'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   customStyle?: CSSProperties
-  labelText: ReactNode
+  labelText?: string
   onChange: (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void

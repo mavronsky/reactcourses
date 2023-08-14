@@ -14,9 +14,9 @@
   height: 500px;
 }
 
-.login_form {
+.loginForm {
   display: flex;
-  margin: auto;
+  margin: 0 auto;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -27,6 +27,7 @@
   color: rgb(5, 153, 239);
   text-decoration: none;
   cursor: pointer;
+  font-weight: bold;
 }
 
 .loginContainer h1 {
@@ -41,4 +42,30 @@
 .errorText {
   color: red;
   margin-bottom: 30px;
+}
+
+.buttonStyle {
+  background-color: green;
+  width: 140px;
+  font-size: 24px;
+  height: 44px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+.inputStyle {
+  display: block;
+  color: black;
+  margin-top: 10px;
+  height: 39px;
+  width: 300px;
+  font-size: 20px;
+  padding-left: 10px;
+}
+
+@media (max-width: 768px) {
+  .inputStyle {
+    width: 200px;
+  }
 }

@@ -1,40 +1,15 @@
 import React, { useState, SyntheticEvent } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { useAuth } from '../../helpers/authContext'
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from './../../authContext'
 
 import Input from '../../common/Input/Input'
 import Button from '../../common/Button/Button'
 
 import styles from './Login.module.css'
-import styled from 'styled-components'
-const LoginInputStyle = styled(Input)`
-  display: block;
-  color: black;
-  margin-top: 10px;
-  height: 39px;
-  width: 300px;
-  font-size: 20px;
-  padding-left: 10px;
-  @media (max-width: 768px) {
-    width: 200px;
-  }
-`
 
-const LoginButton = styled(Button)`
-  background-color: green;
-  width: 140px;
-  font-size: 24px;
-  height: 44px;
-  color: white;
-  border: none;
-  border-radius: 5px;
-`
+import { STRINGS } from '../../constants'
 
-interface LoginProps {
-  registrationSuccessful: boolean
-}
-
-function Login({ registrationSuccessful }: LoginProps) {
+function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
@@ -43,7 +18,7 @@ function Login({ registrationSuccessful }: LoginProps) {
 
   const navigate = useNavigate()
 
-  const { login } = useAuth()
+  const { login, registrationSuccessful } = useAuth()
 
   async function handleLogin(e: SyntheticEvent) {
     e.preventDefault()
@@ -115,20 +90,22 @@ function Login({ registrationSuccessful }: LoginProps) {
     <div className={styles.mainContainer}>
       {registrationSuccessful ? (
         <div className={styles.loginContainer}>
-          <h1>SUCCESS! NOW YOU CAN TO</h1>
-          <h1>LOGIN</h1>
+          <h1>{STRINGS.loginSuccessHeader}</h1>
+          <h1>{STRINGS.loginSuccessSubheader}</h1>
           <form className={styles.login_form} onSubmit={handleLogin}>
-            <LoginInputStyle
-              labelText="E-mail"
-              placeholder={'Enter e-mail:'}
+            <Input
+              labelText={STRINGS.emailLabel}
+              className={styles.inputStyle}
+              placeholder={STRINGS.emailPlaceholder}
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
             {emailError && <p className={styles.errorText}>{emailError}</p>}
-            <LoginInputStyle
+            <Input
               type="password"
-              labelText="Password"
-              placeholder={'Enter password:'}
+              className={styles.inputStyle}
+              labelText={STRINGS.passwordLabel}
+              placeholder={STRINGS.passwordPlaceholder}
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
@@ -136,39 +113,49 @@ function Login({ registrationSuccessful }: LoginProps) {
               <p className={styles.errorText}>{passwordError}</p>
             )}
             {loginError && <p className={styles.errorText}>{loginError}</p>}
-            <LoginButton type="submit" text="Login" />
+            <Button
+              className={styles.buttonStyle}
+              type="submit"
+              text={STRINGS.loginButtonText}
+            />
           </form>
         </div>
       ) : (
         <div className={styles.loginContainer}>
-          <h1>Login</h1>
-          <form className={styles.login_form} onSubmit={handleLogin}>
-            <LoginInputStyle
-              labelText="E-mail"
-              placeholder={'Enter e-mail:'}
+          <h1>{STRINGS.loginHeader}</h1>
+          <form className={styles.loginForm} onSubmit={handleLogin}>
+            <Input
+              className={styles.inputStyle}
+              labelText={STRINGS.emailLabel}
+              placeholder={STRINGS.emailPlaceholder}
               onChange={(e) => setEmail(e.target.value)}
             />
             {emailError && <p className={styles.errorText}>{emailError}</p>}
-            <LoginInputStyle
+            <Input
+              className={styles.inputStyle}
               type="password"
-              labelText="Password"
-              placeholder={'Enter password:'}
+              labelText={STRINGS.passwordLabel}
+              placeholder={STRINGS.passwordPlaceholder}
               onChange={(e) => setPassword(e.target.value)}
             />
             {passwordError && (
               <p className={styles.errorText}>{passwordError}</p>
             )}
             {loginError && <p className={styles.errorText}>{loginError}</p>}
-            <LoginButton type="submit" text="Login" />
+            <Button
+              className={styles.buttonStyle}
+              type="submit"
+              text={STRINGS.loginButtonText}
+            />
           </form>
           <p>
-            If you do not have an account, you can{' '}
-            <a
+            {STRINGS.registerAccountText}{' '}
+            <span
               className={styles.registerLink}
               onClick={() => navigate('/registration')}
             >
-              register.
-            </a>
+              {STRINGS.registerLinkText}
+            </span>
           </p>
         </div>
       )}

@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
 import Input from '../../common/Input/Input.tsx'
 import Button from '../../common/Button/Button.tsx'
-import styles from './Registration.module.css'
-import styled from 'styled-components'
 
-interface RegistrationProps {
-  setRegistrationSuccessful: (successful: boolean) => void
-}
+import styles from './Registration.module.css'
+
+import { useAuth } from '../../authContext.tsx'
+import { STRINGS } from './../../constants.js'
 
 interface User {
   name: string
@@ -15,69 +15,65 @@ interface User {
   password: string
 }
 
-const RegistrationInputStyle = styled(Input)`
-  display: block;
-  color: black;
-  margin-top: 10px;
-  height: 39px;
-  width: 300px;
-  font-size: 20px;
-  padding-left: 10px;
-  @media (max-width: 768px) {
-    width: 200px;
-  }
-`
-
-const RegistrationButton = styled(Button)`
-  background-color: green;
-  width: 140px;
-  font-size: 24px;
-  height: 44px;
-  color: white;
-  border: none;
-  margin-top: 15px;
-  border-radius: 5px;
-`
-
-function Registration({
-  setRegistrationSuccessful,
-}: RegistrationProps): JSX.Element {
+function Registration(): JSX.Element {
   const navigate = useNavigate()
-  const [name, setName] = useState<string>('')
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [nameError, setNameError] = useState<string>('')
-  const [emailError, setEmailError] = useState<string>('')
-  const [passwordError, setPasswordError] = useState<string>('')
-  const [registrationError, setRegistrationError] = useState<string>('')
-  const [emailExistsError, setEmailExistsError] = useState<string>('')
+  const { setRegistrationSuccessful } = useAuth()
+
+  const [formData, setFormData] = useState<User>({
+    name: '',
+    email: '',
+    password: '',
+  })
+
+  const [errors, setErrors] = useState<{
+    name: string | null
+    email: string | null
+    password: string | null
+    registration: string | null
+    emailExists: string | null
+  }>({
+    name: null,
+    email: null,
+    password: null,
+    registration: null,
+    emailExists: null,
+  })
 
   async function handleRegistration(e: React.FormEvent) {
     e.preventDefault()
-    setNameError('')
-    setEmailError('')
-    setPasswordError('')
-    setRegistrationError('')
+    setErrors({
+      name: null,
+      email: null,
+      password: null,
+      registration: null,
+      emailExists: null,
+    })
 
-    const errors: string[] = []
+    const { name, email, password } = formData
+    const validationErrors: string[] = []
 
     if (name.trim() === '') {
-      setNameError('Name is required')
-    }
-    if (email.trim() === '') {
-      setEmailError('Email is required')
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      setEmailError('Invalid email format')
-    }
-    if (password.trim() === '') {
-      setPasswordError('Password is required')
-    }
-    if (password.length < 6) {
-      setPasswordError('Password must be at least 6 characters.')
+      validationErrors.push(STRINGS.nameRequiredError)
     }
 
-    if (errors.length > 0) {
-      alert(errors.join('\n'))
+    if (email.trim() === '' || !/\S+@\S+\.\S+/.test(email)) {
+      validationErrors.push(
+        email.trim() === ''
+          ? STRINGS.emailRequiredError
+          : STRINGS.invalidEmailError
+      )
+    }
+
+    if (password.trim() === '' || password.length < 6) {
+      validationErrors.push(
+        password.trim() === ''
+          ? STRINGS.passwordRequiredError
+          : STRINGS.shortPasswordError
+      )
+    }
+
+    if (validationErrors.length > 0) {
+      alert(validationErrors.join('\n'))
       return
     }
 
@@ -92,25 +88,20 @@ function Registration({
       })
 
       if (response.ok) {
-        try {
-          const result = await response.json()
-          if (!result.successful) {
-            // Handle unsuccessful registration
-          } else {
-            console.log(result)
-            navigate('/login')
-            setRegistrationSuccessful(true)
-          }
-        } catch (jsonError) {
-          console.error('Invalid JSON response from the server:', jsonError)
+        const result = await response.json()
+        if (!result.successful) {
+          setErrors({ ...errors, registration: STRINGS.registrationError })
+        } else {
+          console.log(result)
+          navigate('/login')
+          setRegistrationSuccessful(true)
         }
       } else {
         try {
           const errorMessage = await response.json()
           console.error(errorMessage)
           if (errorMessage.errors[0].includes('exists')) {
-            setEmailExistsError('Email already exists')
-            return
+            setErrors({ ...errors, emailExists: STRINGS.existingEmailError })
           }
         } catch (jsonError) {
           console.error(
@@ -121,51 +112,66 @@ function Registration({
       }
     } catch (error) {
       console.error(error)
-      setPasswordError('Password must be at least 6 characters.')
-      return
+      setErrors({ ...errors, registration: STRINGS.registrationError })
     }
   }
 
   return (
     <div className={styles.mainContainer}>
       <div className={styles.regContainer}>
-        <h1>Registration</h1>
+        <h1>{STRINGS.registrationHeader}</h1>
         <form className={styles.reg_form} onSubmit={handleRegistration}>
-          <RegistrationInputStyle
-            labelText="Name"
-            placeholder="Enter name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+          <Input
+            className={styles.inputStyle}
+            labelText={STRINGS.nameLabel}
+            placeholder={STRINGS.namePlaceholder}
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
-          {nameError && <p className={styles.errorText}>{nameError}</p>}
-          <RegistrationInputStyle
-            labelText="E-mail"
-            placeholder="Enter email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+          {errors.name && <p className={styles.errorText}>{errors.name}</p>}
+          <Input
+            className={styles.inputStyle}
+            labelText={STRINGS.emailLabel}
+            placeholder={STRINGS.emailPlaceholder}
+            value={formData.email}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
           />
-          {emailExistsError && (
-            <p className={styles.errorText}>{emailExistsError}</p>
+          {errors.emailExists && (
+            <p className={styles.errorText}>{errors.emailExists}</p>
           )}
-          {emailError && <p className={styles.errorText}>{emailError}</p>}
-          <RegistrationInputStyle
+          {errors.email && <p className={styles.errorText}>{errors.email}</p>}
+          <Input
+            className={styles.inputStyle}
             type="password"
-            labelText="Password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            labelText={STRINGS.passwordLabel}
+            placeholder={STRINGS.passwordPlaceholder}
+            value={formData.password}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
           />
-          {passwordError && <p className={styles.errorText}>{passwordError}</p>}
-          {registrationError && (
-            <p className={styles.errorText}>{registrationError}</p>
+          {errors.password && (
+            <p className={styles.errorText}>{errors.password}</p>
           )}
-          <RegistrationButton type="submit" text="Registration" />
+          {errors.registration && (
+            <p className={styles.errorText}>{STRINGS.registrationError}</p>
+          )}
+          <Button
+            className={styles.buttonStyle}
+            type="submit"
+            text={STRINGS.registrationButtonText}
+          />
         </form>
         <p>
           If you do not have an account, you can{' '}
-          <a className={styles.registerLink} onClick={() => navigate('/login')}>
-            login.
-          </a>
+          <span
+            className={styles.registerLink}
+            onClick={() => navigate('/login')}
+          >
+            {STRINGS.loginLinkText}
+          </span>
         </p>
       </div>
     </div>

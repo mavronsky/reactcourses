@@ -11,3 +11,30 @@
     height: 100%;
   }
 }
+
+.searchButton {
+  background-color: blue;
+  width: 67px;
+  font-size: 15px;
+  height: 42px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  margin-left: 2px;
+  border-radius: 0px 5px 5px 0px;
+}
+
+.inputStyle {
+  display: block;
+  color: black;
+  font-size: 18px;
+  margin-bottom: 18px;
+  height: 39px;
+  width: 300px;
+}
+
+@media (max-width: 768px) {
+  .inputStyle {
+    width: 176px;
+  }
+}

@@ -6,9 +6,8 @@ import CourseCard from './components/CourseCard/CourseCard'
 import Button from '../../common/Button/Button'
 import SearchBar from './components/SearchBar/SearchBar'
 import styles from './Courses.module.css'
-import { createButtonStyle } from '../../styles'
 import { pipeDuration } from '../../helpers/pipeDuration'
-import { createAddNewCourseButtonText } from '../../constants'
+import { STRINGS } from '../../constants'
 
 interface Course {
   id: string
@@ -53,11 +52,11 @@ const Courses: React.FC = () => {
 
   return (
     <div className={styles.courses}>
-      <div className={styles.searchbar}>
+      <div className={styles.searchBar}>
         <SearchBar value={searchQuery} onSubmit={handleSearchSubmit} />
         <Button
-          style={createButtonStyle}
-          text={createAddNewCourseButtonText}
+          className={styles.createButtonStyle}
+          text={STRINGS.createAddNewCourseButtonText}
           onClick={handleToAddCourse}
         />
       </div>
@@ -84,7 +83,7 @@ const Courses: React.FC = () => {
           )
         )
       ) : filteredCourses.length === 0 ? (
-        <div className={styles.no_matches}>No matches.</div>
+        <div className={styles.noMatches}>No matches.</div>
       ) : (
         filteredCourses.map(
           ({
