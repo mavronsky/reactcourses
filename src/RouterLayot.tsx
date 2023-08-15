@@ -1,13 +1,13 @@
 import React from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-import Courses from './Courses/Courses'
-import Login from './Login/Login'
-import Registration from './Registration/Registration'
-import CourseInfo from './CourseInfo/CourseInfo'
-import CreateCourse from './CreateCourse/CreateCourse'
+import Courses from './components/Courses/Courses'
+import Login from './components/Login/Login'
+import Registration from './components/Registration/Registration'
+import CourseInfo from './components/CourseInfo/CourseInfo'
+import CreateCourse from './components/CreateCourse/CreateCourse'
 
-import MainLayout from './../MainLayout'
+import MainLayout from './MainLayout'
 
 export default function RouterLayout(): JSX.Element {
   return (
